@@ -7,6 +7,8 @@ import authRoutes from "./routes/auth.routes";
 import protectedRoutes from "./routes/protected.routes";
 import taskRoutes from "./routes/task.routes";
 import expenseRoutes from "./routes/expense.routes";
+import { errorHandler } from "./middleware/error.middleware";
+
 
 dotenv.config();
 connectDB();
@@ -20,6 +22,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/expenses", expenseRoutes);
+
+app.use(errorHandler);
 
 app.use(
   cors({
