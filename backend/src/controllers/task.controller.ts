@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 import Task from "../models/Task.model";
 import { asyncHandler } from "../utils/asyncHandler";
 
-
-
-
-// CREATE TASK-------------------->>>
-export const createTask = async (req: Request, res: Response) => {
+// CREATE TASK
+export const createTask = asyncHandler(async (req: Request, res: Response) => {
   const { title, description, dueDate } = req.body;
 
   if (!title) {
@@ -21,18 +19,25 @@ export const createTask = async (req: Request, res: Response) => {
   });
 
   res.status(201).json(task);
-};
+});
 
-// GET ALL USER TASKS------------------->>>>
+// GET ALL USER TASKS
 export const getTasks = asyncHandler(async (req: Request, res: Response) => {
   const tasks = await Task.find({ userId: req.user!.id });
   res.status(200).json(tasks);
 });
 
-// UPDATE TASK-------------------->>>>
-export const updateTask = async (req: Request, res: Response) => {
+// UPDATE TASK
+export const updateTask = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  // 🔐 ID VALIDATION (this was missing)
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid task ID" });
+  }
+
   const task = await Task.findOne({
-    _id: req.params.id,
+    _id: id,
     userId: req.user!.id
   });
 
@@ -48,12 +53,19 @@ export const updateTask = async (req: Request, res: Response) => {
   await task.save();
 
   res.status(200).json(task);
-};
+});
 
-// DELETE TASK----------------->>>>
-export const deleteTask = async (req: Request, res: Response) => {
+// DELETE TASK
+export const deleteTask = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  // 🔐 ID VALIDATION (this was missing)
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid task ID" });
+  }
+
   const task = await Task.findOneAndDelete({
-    _id: req.params.id,
+    _id: id,
     userId: req.user!.id
   });
 
@@ -62,4 +74,4 @@ export const deleteTask = async (req: Request, res: Response) => {
   }
 
   res.status(200).json({ message: "Task deleted successfully" });
-};
+});
