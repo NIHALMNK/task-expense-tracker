@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
 import Task from "../models/Task.model";
+import { asyncHandler } from "../utils/asyncHandler";
+
+
+
 
 // CREATE TASK-------------------->>>
 export const createTask = async (req: Request, res: Response) => {
@@ -20,13 +24,10 @@ export const createTask = async (req: Request, res: Response) => {
 };
 
 // GET ALL USER TASKS------------------->>>>
-export const getTasks = async (req: Request, res: Response) => {
-  const tasks = await Task.find({ userId: req.user!.id }).sort({
-    createdAt: -1
-  });
-
+export const getTasks = asyncHandler(async (req: Request, res: Response) => {
+  const tasks = await Task.find({ userId: req.user!.id });
   res.status(200).json(tasks);
-};
+});
 
 // UPDATE TASK-------------------->>>>
 export const updateTask = async (req: Request, res: Response) => {
