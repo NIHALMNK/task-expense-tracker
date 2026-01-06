@@ -15,9 +15,20 @@ connectDB();
 
 const app = express();
 
+//cors
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true
+  })
+);
+
+
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/api/tasks", taskRoutes);
@@ -25,12 +36,7 @@ app.use("/api/expenses", expenseRoutes);
 
 app.use(errorHandler);
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true
-  })
-);
+
 
 // Test route
 app.get("/health", (_req, res) => {

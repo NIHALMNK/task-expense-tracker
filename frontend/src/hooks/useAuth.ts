@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import { User } from "../types/auth";
+import type { User } from "../types/auth";
+
 
 interface UseAuthResult {
   user: User | null;

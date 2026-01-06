@@ -1,6 +1,11 @@
 import { useState } from "react";
+import { AxiosError } from "axios";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
+
+interface ErrorResponse {
+  message: string;
+}
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +19,8 @@ const Login = () => {
     try {
       await api.post("/auth/request-otp", { email });
       navigate("/verify-otp", { state: { email } });
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as AxiosError<ErrorResponse>;
       alert(err.response?.data?.message || "Failed to send OTP");
     } finally {
       setLoading(false);

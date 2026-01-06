@@ -6,3 +6,4 @@ export interface User {
 export interface AuthResponse {
   user: User;
 }
+console.log("auth.ts loaded");
