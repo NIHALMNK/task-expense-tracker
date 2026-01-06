@@ -15,15 +15,16 @@ const Expenses = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadExpenses();
-  }, []);
-
   const loadExpenses = async () => {
     setLoading(true);
     const data = await getExpenses();
     setExpenses(data);
     setLoading(false);
   };
+
+  loadExpenses();
+}, []);
+
 
   const handleCreate = async () => {
     if (!title.trim() || amount <= 0 || !category.trim()) return;
