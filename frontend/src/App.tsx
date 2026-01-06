@@ -5,15 +5,30 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Tasks from "./pages/Tasks";
 import Expenses from "./pages/Expenses";
-
+import PublicRoute from "./components/PublicRoute";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path="/verify-otp"
+          element={
+            <PublicRoute>
+              <VerifyOtp />
+            </PublicRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={
@@ -31,15 +46,13 @@ const App = () => {
           }
         />
         <Route
-  path="/expenses"
-  element={
-    <ProtectedRoute>
-      <Expenses />
-    </ProtectedRoute>
-  }
-/>
-
-
+          path="/expenses"
+          element={
+            <ProtectedRoute>
+              <Expenses />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
