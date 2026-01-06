@@ -3,6 +3,7 @@ import User from "../models/User.model";
 import Otp from "../models/Otp.model";
 import { generateOtp } from "../utils/otp";
 import { generateToken } from "../utils/jwt";
+import { sendOtpEmail } from "../utils/sendEmail";
 
 //requestOtp----------------------------->>>>
 
@@ -17,11 +18,9 @@ export const requestOtp = async (req: Request, res: Response) => {
   const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
   await Otp.findOneAndDelete({ email });
-
   await Otp.create({ email, otp, expiresAt });
 
-  
-  console.log(`OTP for ${email}: ${otp}`);
+  await sendOtpEmail(email, otp); // ← THIS was missing
 
   res.status(200).json({ message: "OTP sent successfully" });
 };
