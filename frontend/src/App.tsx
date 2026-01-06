@@ -4,6 +4,8 @@ import VerifyOtp from "./pages/VerifyOtp";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Tasks from "./pages/Tasks";
+import Expenses from "./pages/Expenses";
+
 
 const App = () => {
   return (
@@ -28,6 +30,16 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/expenses"
+  element={
+    <ProtectedRoute>
+      <Expenses />
+    </ProtectedRoute>
+  }
+/>
+
+
       </Routes>
     </BrowserRouter>
   );
