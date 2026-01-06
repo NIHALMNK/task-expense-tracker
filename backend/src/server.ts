@@ -6,6 +6,7 @@ import connectDB from "./config/db"
 import authRoutes from "./routes/auth.routes";
 import protectedRoutes from "./routes/protected.routes";
 import taskRoutes from "./routes/task.routes";
+import expenseRoutes from "./routes/expense.routes";
 
 dotenv.config();
 connectDB();
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/expenses", expenseRoutes);
 
 app.use(
   cors({
