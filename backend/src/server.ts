@@ -18,7 +18,8 @@ const app = express();
 //cors
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://localhost:5174" 
+  "http://localhost:5174",
+  "https://task-expense-tracker-1.onrender.com"
 ];
 
 app.use(
@@ -30,11 +31,12 @@ app.use(
         return callback(null, true);
       }
 
-      callback(new Error("Not allowed by CORS"));
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true
   })
 );
+
 
 
 // Middlewares
