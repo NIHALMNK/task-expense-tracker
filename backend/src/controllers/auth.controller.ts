@@ -52,30 +52,32 @@ export const verifyOtp = async (req: Request, res: Response) => {
   const token = generateToken(user._id.toString());
 
   res
-    .cookie("token", token, {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    })
-    .status(200)
-    .json({
-      message: "Authentication successful",
-      user: {
-        id: user._id,
-        email: user.email
-      }
-    });
+  .cookie("token", token, {
+    httpOnly: true,
+    sameSite: "none",   
+    secure: true,      
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  })
+  .status(200)
+  .json({
+    message: "Authentication successful",
+    user: {
+      id: user._id,
+      email: user.email
+    }
+  });
+
 };
 
 //LogOut------------->>>>
 export const logout = async (_req: Request, res: Response) => {
   res
-    .clearCookie("token", {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production"
-    })
-    .status(200)
-    .json({ message: "Logged out successfully" });
+  .clearCookie("token", {
+    httpOnly: true,
+    sameSite: "none",
+    secure: true
+  })
+  .status(200)
+  .json({ message: "Logged out successfully" });
+
 };
