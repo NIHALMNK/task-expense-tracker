@@ -20,9 +20,17 @@ export const requestOtp = async (req: Request, res: Response) => {
   await Otp.findOneAndDelete({ email });
   await Otp.create({ email, otp, expiresAt });
 
-  await sendOtpEmail(email, otp); // ← THIS was missing
+  try {
+  await sendOtpEmail(email, otp);
+} catch (error) {
+  console.error("❌ Email send failed:", error);
+  return res.status(500).json({
+    message: "Failed to send OTP email"
+  });
+}
 
-  res.status(200).json({ message: "OTP sent successfully" });
+res.status(200).json({ message: "OTP sent successfully" });
+
 };
 
 //verifyOtp------------------------->>>>

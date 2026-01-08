@@ -1,18 +1,18 @@
-import * as nodemailer from "nodemailer";
-
+import nodemailer from "nodemailer";
 
 export const sendOtpEmail = async (email: string, otp: string) => {
   const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // TLS
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
   await transporter.sendMail({
-    from: `"Your App" <${process.env.EMAIL_USER}>`,
+    from: `"Task Expense Tracker" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: "Your OTP Code",
     html: `
@@ -20,6 +20,6 @@ export const sendOtpEmail = async (email: string, otp: string) => {
       <p>Your OTP is:</p>
       <h1>${otp}</h1>
       <p>This OTP expires in 5 minutes.</p>
-    `
+    `,
   });
 };
