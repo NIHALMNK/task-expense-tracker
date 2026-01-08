@@ -19,7 +19,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://task-expense-tracker-1.onrender.com"
+  process.env.CLIENT_URL
 ];
 
 app.use(
@@ -36,6 +36,7 @@ app.use(
     credentials: true
   })
 );
+
 
 
 
